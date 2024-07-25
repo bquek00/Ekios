@@ -12,6 +12,10 @@ pnpm install
 
 Then activate the virtual environment 
 
+```
+python3 -m venv path/to/venv
+```
+
 On MAC source 
 ```bash
 path/to/venv/bin/activate
