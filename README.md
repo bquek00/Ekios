@@ -10,7 +10,7 @@ yarn
 pnpm install
 ```
 
-Then activate the virtual environment 
+Then activate the virtual environment using Python version 3.9
 
 ```
 python3 -m venv path/to/venv
@@ -19,6 +19,10 @@ python3 -m venv path/to/venv
 On MAC source 
 ```bash
 path/to/venv/bin/activate
+```
+or conda
+```
+conda create --name <some-name> python=3.9 && conda activate <some-name>
 ```
 
 on Windows 
