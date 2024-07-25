@@ -53,6 +53,10 @@ yarn
 pnpm install
 ```
 
+Then activate the virtual environment 
+On MAC source path/to/venv/bin/activate
+on Windows path\to\venv\Scripts\activate
+
 Then, run the development server:
 
 ```bash
