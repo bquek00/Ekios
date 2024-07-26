@@ -16,8 +16,14 @@
   }
 }
 
+html {
+  min-height: 100%;
+  margin: 0;
+}
+
 body {
-  color: rgb(var(--foreground-rgb));
+  margin: 0;
+  min-height: inherit;
   background: linear-gradient(
       to bottom,
       transparent,
