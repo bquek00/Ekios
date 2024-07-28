@@ -3,15 +3,15 @@
 import React from 'react'
 import Image from 'next/image'
 import { useState } from 'react'
-import { createClient } from '../../utils/supabase/client'
+import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
 // import { login } from './action'
 
-const LoginPage = () => {
+const RegisterPage = () => {
     const [credentials, setCredentials] = useState({email: '', password: ''});
     const router = useRouter();
 
-    const login = async function (credentials) {
+    const register = async function (credentials) {
         const supabase = createClient()
     
         // type-casting here for convenience
@@ -21,17 +21,14 @@ const LoginPage = () => {
             password: credentials.password,
         }
     
-        const { error } = await supabase.auth.signInWithPassword(data)
-    
-        console.log("error")
-        console.log(error)
+        const { error } = await supabase.auth.signUp(data)
     
         if (error) {
-            console.log("error in logging in")
+            console.log("error in logging")
             router.push('/error')
         }
     
-        console.log("login successful")
+        console.log("registered successfully")
         router.push('/dashboard')
     }
 
@@ -78,7 +75,7 @@ const LoginPage = () => {
                 <button
                     type="submit"
                     className="bg-blue-500 hover:bg-blue-600 font-medium py-2 px-4 rounded-lg text-white"
-                    onClick={() => { login(credentials) }}
+                    onClick={() => { register(credentials) }}
                 >
                 Login
                 </button>
@@ -88,4 +85,4 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default RegisterPage;

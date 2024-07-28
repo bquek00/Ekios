@@ -43,8 +43,7 @@ export default function HomePage() {
           <div className="w-1/2">
             <h1 className="text-4xl font-bold mb-4">Changing the world</h1>
             <p className="text-lg mb-8">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut
-              risus in augue luctus venenatis.
+              Empowering Investors with Effortless Stock Insights.
             </p>
             <button 
               className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
