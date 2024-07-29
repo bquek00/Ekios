@@ -4,11 +4,13 @@ import { FaUserCircle, FaSearch } from 'react-icons/fa';
 import Image from 'next/image';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
-import { Button, TextInput } from 'flowbite-react';
+import Select from 'react-select'
 
-const NavBar = () => {
+const NavBar = ({ symbols }) => {
   const supabase = createClient();
   const router = useRouter();
+
+  console.log("symbols", symbols);
 
   const logout = async () => {
     const { error } = await supabase.auth.signOut();
@@ -30,7 +32,7 @@ const NavBar = () => {
             />
       </div>
       <div className="flex gap-4">
-        <TextInput type="search" rightIcon={FaSearch} placeholder="Search" />
+        <Select className="w-200" options={symbols.map(symbol => ({label: symbol, value: symbol}))}/>
         <Dropdown
           label={
             <div className="text-black">
