@@ -18,9 +18,9 @@ export default function Home() {
   const [symbols, setSymbols] = useState([])
   const [user, setUser] = useState(null)
 
+  console.log("Symbols:", symbols)
+
   const [historicalData, setHistoricalData] = useState([]);
-  const [searchSymbol, setSearchSymbol] = useState('TSLA');
-  const [currentSymbol, setCurrentSymbol] = useState('TSLA');
   const { selectedStock, selectValidStock } = useContext(StockContext)
 
 
@@ -32,8 +32,8 @@ export default function Home() {
       const historicalResponse = data.historicalData;
       setHistoricalData(historicalResponse);
 
-      const symbolsResponse = [...new Set(historicalResponse.map(data => data.symbol))];
-      setSymbols(symbolsResponse);
+      // const symbolsResponse = [...new Set(historicalResponse.map(data => data.symbol))];
+      // setSymbols(symbolsResponse);
 
       const { data: { user } } = await supabase.auth.getUser();
       setUser(user);
@@ -44,7 +44,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    fetchHistoricalData(currentSymbol);
+    fetchHistoricalData(selectedStock);
 
     // Simulate user authentication
     const simulateUser = async () => {
@@ -53,7 +53,7 @@ export default function Home() {
       console.log("Simulated User data:", user);
     };
     simulateUser();
-  }, [currentSymbol]);
+  }, [selectedStock]);
 
   useEffect(() => {
     console.log("Historical Data:", historicalData);
@@ -88,20 +88,11 @@ export default function Home() {
     };
   }, []);
 
-  const handleSearchChange = (event) => {
-    setSearchSymbol(event.target.value);
-  };
-
-  const handleSearchSubmit = (event) => {
-    event.preventDefault();
-    setCurrentSymbol(searchSymbol);
-  };
-
   const chartData = {
     labels: historicalData.map(data => new Date(data.date).toISOString()),
     datasets: [
       {
-        label: `${currentSymbol} Close Price`,
+        label: `${selectedStock.toUpperCase()} Close Price`,
         data: historicalData.map(data => data.close),
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 2,
@@ -143,18 +134,6 @@ export default function Home() {
         <div className="grid grid-cols-3 mb-4">
           <div className="bg-white p-4">
             <h2 className="text-xl font-bold mb-2">Stock Chart</h2>
-            <form onSubmit={handleSearchSubmit} className="mb-4">
-              <input
-                type="text"
-                value={searchSymbol}
-                onChange={handleSearchChange}
-                className="p-2 border rounded w-full"
-                placeholder="Enter stock symbol (e.g., TSLA)"
-              />
-              <button type="submit" className="mt-2 p-2 bg-blue-500 text-white rounded">
-                Search
-              </button>
-            </form>
             {historicalData.length > 0 ? (
               <Line data={chartData} options={chartOptions} />
             ) : (
@@ -172,11 +151,11 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-2 bg-white p-4">
           <div>
-            <h2 className="text-xl font-bold mb-2">Trade History</h2>
+            <h2 className="text-xl font-bold mb-2">Overall Trade History</h2>
             <Trades user={user} />
           </div>
           <div>
-            <h2 className="text-xl font-bold mb-2">Market Trades</h2>
+            <h2 className="text-xl font-bold mb-2">Overall Market Trades</h2>
             {/* Traded orders list content goes here */}
           </div>
         </div>
