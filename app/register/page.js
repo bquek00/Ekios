@@ -29,7 +29,8 @@ const RegisterPage = () => {
         }
     
         console.log("registered successfully")
-        router.push('/dashboard')
+        alert('Registered successfully, please check your email!')
+        router.push('/')
     }
 
     return (
