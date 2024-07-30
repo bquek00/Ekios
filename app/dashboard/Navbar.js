@@ -4,13 +4,10 @@ import { FaUserCircle, FaSearch } from 'react-icons/fa';
 import Image from 'next/image';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
-import Select from 'react-select'
 
-const NavBar = ({ symbols }) => {
+const NavBar = () => {
   const supabase = createClient();
   const router = useRouter();
-
-  console.log("symbols", symbols);
 
   const logout = async () => {
     const { error } = await supabase.auth.signOut();
@@ -32,7 +29,6 @@ const NavBar = ({ symbols }) => {
             />
       </div>
       <div className="flex gap-4">
-        <Select className="w-200" options={symbols.map(symbol => ({label: symbol, value: symbol}))}/>
         <Dropdown
           label={
             <div className="text-black">

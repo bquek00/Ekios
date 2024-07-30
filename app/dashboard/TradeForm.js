@@ -40,7 +40,7 @@ const TradeForm = ({user}) => {
 
         const { error } = await supabase
             .from('orders')
-            .insert({ uid: user.id, tradeType, orderType, quantity, price });
+            .insert({ uid: user.id, tradeType, orderType, quantity, price })
     }
 
     return (

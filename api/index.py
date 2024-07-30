@@ -12,17 +12,20 @@ def api_doc():
 def stock_list():
     return ["ibm", "msft", "tsla", "race"]
 
-@app.route("/api/orders", methods=["POST"])
-def submit_order():
+# @app.route("/api/orders", methods=["POST"])
+# def submit_order():
     # data = supabase.auth.get_user()
     # print(data)
     # if not data:
     #     return {"error": "Unauthorized"}, 401
-    payload = request.json
-    print(f"payload: {payload}")
-    response = (
-        supabase.table("orders")
-        .insert({"uid": data.id, **payload})
-        .execute()
-    )
-    print(f"response: {response}")
+    # payload = request.json
+    # print(f"payload: {payload}")
+    # response = (
+    #     supabase.table("orders")
+    #     .insert({"uid": data.id, **payload})
+    #     .execute()
+    # )
+    # print(f"response: {response}")
+
+# @app.route("api/stocks/<stock_name>")
+# def get_stock_data():
