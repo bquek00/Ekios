@@ -82,6 +82,7 @@ const LoginPage = () => {
                 >
                 Login
                 </button>
+                <div className="pt-5 text-sm">Don't have an account? <div className="text-blue-600" onClick={() => router.push("/register")}>Register here</div></div>
             </div>
         </div>
         </div>

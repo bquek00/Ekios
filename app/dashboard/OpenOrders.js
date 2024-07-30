@@ -19,13 +19,19 @@ export const OpenOrders = ({user, selectedStock}) => {
                 .eq('uid', user.id)
                 .eq('symbol', selectedStock)
                 .eq('status', 'open')
-                .then(data => setOpenOrders(_.orderBy(data.data, ['time'], ['asc'])))
+                .then(data => setOpenOrders(_.orderBy(data.data, ['time'], ['desc'])))
             
             const channel = supabase
                 .channel("orders")
-                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'orders' }, payload => {
-                    console.log('Change received!', payload)
-                    setOpenOrders(list => list.concat(payload))
+                .on('postgres_changes', { event: '*', schema: '*', table: 'orders' }, payload => {
+                    console.log('Change received!', payload.new)
+                    supabase
+                        .from('orders')
+                        .select('tradeType, orderType, price, quantity, time')
+                        .eq('uid', user.id)
+                        .eq('symbol', selectedStock)
+                        .eq('status', 'open')
+                        .then(data => setOpenOrders(_.orderBy(data.data, ['time'], ['desc'])))
                 })
                 .subscribe()
             return () => supabase.removeChannel(channel)

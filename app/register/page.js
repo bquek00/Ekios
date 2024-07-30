@@ -78,8 +78,9 @@ const RegisterPage = () => {
                     className="bg-blue-500 hover:bg-blue-600 font-medium py-2 px-4 rounded-lg text-white"
                     onClick={() => { register(credentials) }}
                 >
-                Login
+                Register
                 </button>
+                <div className="pt-5 text-sm">Already have an account? <div className="text-blue-600" onClick={() => router.push("/login")}>Login here</div></div>
             </div>
         </div>
         </div>
