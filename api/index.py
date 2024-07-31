@@ -1,8 +1,8 @@
 from flask import Flask, request
-#from supabase import create_client
+from supabase import create_client
 app = Flask(__name__)
 
-#supabase = create_client("https://rnecpulvomnhbbfxzton.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJuZWNwdWx2b21uaGJiZnh6dG9uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjE4MzU5ODEsImV4cCI6MjAzNzQxMTk4MX0.pDLh_1qB_Ve2-bgFLjt1xxMarAs42yXtqKCtsJX545E")
+supabase = create_client("https://rnecpulvomnhbbfxzton.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJuZWNwdWx2b21uaGJiZnh6dG9uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjE4MzU5ODEsImV4cCI6MjAzNzQxMTk4MX0.pDLh_1qB_Ve2-bgFLjt1xxMarAs42yXtqKCtsJX545E")
 
 @app.route("/api") # should return the api doc
 def api_doc():
