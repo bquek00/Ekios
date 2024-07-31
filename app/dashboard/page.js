@@ -170,7 +170,7 @@ export default function Home() {
           </div>
           <div className="bg-white p-4 overflow-y-auto">
             <h2 className="text-l font-bold mb-2">Spot Trading</h2>
-            <TradeForm user={user} />
+            <TradeForm user={user} selectedStock={selectedStock} />
           </div>
         </div>
         <div className="grid grid-cols-2 bg-white p-4">

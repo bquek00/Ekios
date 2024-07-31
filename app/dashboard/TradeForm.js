@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, TextInput } from 'flowbite-react';
 import { createClient } from '@/utils/supabase/client';
 
-const TradeForm = ({user}) => {
+const TradeForm = ({user, selectedStock}) => {
     const [tradeType, setTradeType] = useState('buy');
     const [orderType, setOrderType] = useState('market');
     const [quantity, setQuantity] = useState('');
@@ -40,7 +40,7 @@ const TradeForm = ({user}) => {
 
         const { error } = await supabase
             .from('orders')
-            .insert({ uid: user.id, tradeType, orderType, quantity, price })
+            .insert({ uid: user.id, symbol: selectedStock, tradeType, orderType, quantity, price })
     }
 
     return (

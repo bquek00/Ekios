@@ -12,7 +12,7 @@ export const OpenOrders = ({user, selectedStock}) => {
     useEffect(() => {
         if (user && selectedStock) {
             // console.log(user)
-            // console.log(selectedStock)
+            console.log("changed stock:", selectedStock)
             supabase
                 .from('orders')
                 .select('tradeType, orderType, price, quantity, time')
@@ -20,6 +20,8 @@ export const OpenOrders = ({user, selectedStock}) => {
                 .eq('symbol', selectedStock)
                 .eq('status', 'open')
                 .then(data => setOpenOrders(_.orderBy(data.data, ['time'], ['desc'])))
+
+            console.log("@trace")
             
             const channel = supabase
                 .channel("orders")
