@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask
 from supabase import create_client
 app = Flask(__name__)
 
