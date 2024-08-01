@@ -40,9 +40,9 @@ const NavBar = () => {
           inline={true}
           className="text-white"
         >
-          <Dropdown.Item>
+          {/* <Dropdown.Item>
             <div color="light" onClick={() => {}}>Edit Profile</div>
-          </Dropdown.Item>
+          </Dropdown.Item> */}
           <Dropdown.Item>
             <div color="light" onClick={() => {logout()}}>Logout</div>
           </Dropdown.Item>
