@@ -18,7 +18,7 @@ export default function Home() {
   const supabase = createClient()
   const [symbols, setSymbols] = useState([])
   const [user, setUser] = useState(null)
-  const [price, setPrice] = useState('')
+  const [price, setPrice] = useState({new: '', old: ''})
 
   console.log("Symbols:", symbols)
 
@@ -60,13 +60,13 @@ export default function Home() {
         .from('stocks')
         .select('price')
         .eq('symbol', selectedStock)
-        .then(data => setPrice(data.data[0].price))
+        .then(data => setPrice((oldPriceObj) => ({new: data.data[0].price, old: oldPriceObj.new})))
   
       const channel = supabase
           .channel("stock")
           .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'stocks' }, async (payload) => {
               if (payload.new.symbol == selectedStock)
-                setPrice(payload.new.price)
+                setPrice((oldPriceObj) => ({old: oldPriceObj.new, new: payload.new.price}))
           })
           .subscribe()
       return () => supabase.removeChannel(channel)
@@ -78,32 +78,47 @@ export default function Home() {
   }, [historicalData]);
 
   useEffect(() => {
-    // Define the authentication listener
-    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log(event, session);
-
-      if (event === 'INITIAL_SESSION') {
-        try {
-          // Fetch stock list when user signs in
-          const response = await axios('/api/stock-list').then((res) => res.data);
-          console.log('Stock list:', response);
-          setSymbols(response);
-          const { data: { user } } = await supabase.auth.getUser()
-          setUser(user)
-          console.log("user", user)
-        } catch (error) {
-          console.error('Error fetching stock list:', error);
+    axios('/api/stock-list').then((res) => res.data).then(response => {
+      console.log('Stock list:', response);
+      setSymbols(response);
+      supabase.auth.getUser().then(({data}) => {
+        console.log("user data:", data)
+        setUser(data.user)
+        console.log("user", data.user)
+        if (!selectedStock) {
+          selectValidStock(response, response[0])
         }
-      } else if (event === 'SIGNED_OUT') {
-        setSymbols([]);
-        setUser(null)
-      }
-    });
+      })
+    })
+    // // Define the authentication listener
+    // const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+    //   console.log(event, session);
 
-    // Clean up the listener on component unmount
-    return () => {
-      authListener.subscription.unsubscribe();
-    };
+    //   if (event === 'INITIAL_SESSION') {
+    //     try {
+    //       // Fetch stock list when user signs in
+    //       const response = await axios('/api/stock-list').then((res) => res.data);
+    //       console.log('Stock list:', response);
+    //       setSymbols(response);
+    //       const { data: { user } } = await supabase.auth.getUser()
+    //       setUser(user)
+    //       console.log("user", user)
+    //       if (!selectedStock) {
+    //         selectValidStock(response, response[0])
+    //       }
+    //     } catch (error) {
+    //       console.error('Error fetching stock list:', error);
+    //     }
+    //   } else if (event === 'SIGNED_OUT') {
+    //     setSymbols([]);
+    //     setUser(null)
+    //   }
+    // });
+
+    // // Clean up the listener on component unmount
+    // return () => {
+    //   authListener.subscription.unsubscribe();
+    // };
   }, []);
 
   const chartData = {
@@ -144,7 +159,12 @@ export default function Home() {
             <h2 className="text-xl font-bold mr-5">{selectedStock.toUpperCase()}</h2>
             <div>
               <p className="text-xs">Price</p>
-              <p className="text-xl">{price}</p>
+              <p 
+                className={`text-xl ${
+                  price.new && price.old?
+                  parseFloat(price.new) > parseFloat(price.old) ? 'text-green-500' : 'text-red-500': ''
+                }`}
+              >{price.new}</p>
             </div>
           </div>
           <Select 
